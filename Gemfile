@@ -31,6 +31,9 @@ gem 'jbuilder', '~> 1.2'
 # Heroku
 gem 'rails_12factor', group: :production
 
+# Do Awesome stuff with feeds
+gem 'nokogiri'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
