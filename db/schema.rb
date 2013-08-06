@@ -11,9 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20130806030500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "links", force: true do |t|
+    t.string   "href"
+    t.string   "rel"
+    t.string   "type"
+    t.string   "hreflang"
+    t.string   "title"
+    t.integer  "length"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

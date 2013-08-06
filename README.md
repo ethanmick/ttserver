@@ -47,7 +47,7 @@ A Feed has many "entries"
 * href - string
 * rel - string
 * type - string
-* hreflan - string
+* hreflang - string
 * title - string
 * length - string
 

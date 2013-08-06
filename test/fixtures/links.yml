@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  href: MyString
+  rel: MyString
+  type: 
+  hreflang: MyString
+  title: MyString
+  length: 1
+
+two:
+  href: MyString
+  rel: MyString
+  type: 
+  hreflang: MyString
+  title: MyString
+  length: 1
