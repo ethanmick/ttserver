@@ -31,16 +31,15 @@ A Feed has many "entries"
 * source - the RSS channel the item came from
 
 //atom //atom first
+# Entry
 * id - string
 * published - datetime
-* updated
-* link (many)
-  rel = type
-* title
-* content
-* author
-  * name
-  * uri
+* updated - datetime
+* links (many)
+* title - string
+* content - text
+* author_name - string
+
 
 
 # Link
