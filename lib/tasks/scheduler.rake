@@ -4,6 +4,7 @@ task :update_feeds => :environment do
 
   Feed.all.each do |f|
     f.update_feed
+    puts "We now have #{f.entries.count} entries in #{f.title}"
   end
 
   puts "done."
