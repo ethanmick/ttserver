@@ -1,8 +1,10 @@
 class FeedsController < ApplicationController
 
+
+
   def index
     @feeds = Feed.find(:all, :order => "updated ASC")
-    render json: @feeds, :include => { :entries => { :include => :links}, :links => {}}
+    render json: @feeds
   end
 
 

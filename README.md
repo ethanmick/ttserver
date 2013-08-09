@@ -1,5 +1,28 @@
 # API Server #
 
+# To Do #
+
+* Admin Portal. Need to be authenticated admin
+  * Can add new feeds
+  * Can edit feeds
+  * can view the json of entries in the feed
+  * Can make new users admins
+* Add users
+  * Create account via JSON
+  * Login via JSON
+* Fix/Finish Readability
+* Add a "how often to check feed" option in Feed (eg, objcio only updates monthly. No need to check every 5 minutes)
+
+
+# Feeds to Add #
+* objective -c io feed http://www.objc.io/feed.xml
+* Marco's Blog
+
+
+
+
+
+
 Schema
 
 Users Objects:

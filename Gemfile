@@ -34,10 +34,16 @@ gem 'rails_12factor', group: :production
 # Do Awesome stuff with feeds
 gem 'nokogiri'
 
+# For Querying other sites
+gem 'httparty'
+
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
   gem 'sdoc', require: false
 end
+
+# Devise for Users
+gem 'devise'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

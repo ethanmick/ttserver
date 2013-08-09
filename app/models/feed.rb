@@ -1,14 +1,14 @@
 require 'open-uri'
+require 'feeders'
 
 class Feed < ActiveRecord::Base
-  include AtomFeed
+  include Feeders
   has_many :links
   has_many :entries
 
 
   def update_feed
-    
-  end
-
+    self.send "update_entries_#{self.source_type}", self
+  end  
 
 end
