@@ -2,11 +2,6 @@
 
 # To Do #
 
-* Admin Portal. Need to be authenticated admin
-  * Can add new feeds
-  * Can edit feeds
-  * can view the json of entries in the feed
-  * Can make new users admins
 * Add users
   * Create account via JSON
   * Login via JSON

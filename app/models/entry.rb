@@ -6,7 +6,7 @@ class Entry < ActiveRecord::Base
 
   def get_full_content(link)
     
-    response = HTTParty.get("https://readability.com/api/content/v1/parser?url=#{link.href}&token=#{READABILITY_PARSER_API_KEY}")
+    response = HTTParty.get("https://readability.com/api/content/v1/parser?url=#{link}&token=#{READABILITY_PARSER_API_KEY}")
 
     if response.code == 200
       self.full_content = parsed_article['content']

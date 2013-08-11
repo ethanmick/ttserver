@@ -35,10 +35,17 @@ module Feeders
         new_entry.content = entry.at_css('content').text
 
         # Links
+        source_link = nil
+
         entry.css('link').each do |link|
           new_link = new_entry.links.new
           new_link.href = link['href']
           new_link.rel = link['rel']
+
+          if new_link.rel == "alternate"
+            source_link = new_link.href
+          end
+
           new_link.url_type = link['type']
           new_link.hreflang = link['hreflang']
           new_link.title = link['title']
@@ -49,10 +56,8 @@ module Feeders
 
         new_entry.save
 
-        if not feed.provides_full_content
-#WARNING FIX, what is the source???
-
-          new_entry.get_full_content()
+        if not feed.provides_full_content and not source_link.nil?
+          new_entry.get_full_content(source_link)
         end
       end
     end
