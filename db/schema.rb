@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809235401) do
+ActiveRecord::Schema.define(version: 20130811215837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,10 @@ ActiveRecord::Schema.define(version: 20130809235401) do
     t.string   "source_url"
     t.string   "source_type"
     t.boolean  "provides_full_content"
+    t.integer  "user_id"
   end
+
+  add_index "feeds", ["user_id"], name: "index_feeds_on_user_id", using: :btree
 
   create_table "links", force: true do |t|
     t.string   "href"

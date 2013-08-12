@@ -2,11 +2,12 @@
 
 # To Do #
 
-* Add users
-  * Create account via JSON
-  * Login via JSON
 * Fix/Finish Readability
+
 * Add a "how often to check feed" option in Feed (eg, objcio only updates monthly. No need to check every 5 minutes)
+
+* Fix Hacker News
+  * Probably just show top 30 every time for now
 
 
 # Feeds to Add #

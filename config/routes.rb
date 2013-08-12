@@ -8,6 +8,10 @@ Api::Application.routes.draw do
   resources :feeds
 
   root :to => 'feeds#index'
+
+  match "/404" => "errors#not_found", via: [:get, :post]
+  match "/500" => "errors#exception", via: [:get, :post]
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

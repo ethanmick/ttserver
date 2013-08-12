@@ -1,10 +1,10 @@
-require 'open-uri'
 require 'feeders'
 
 class Feed < ActiveRecord::Base
   include Feeders
   has_many :links
   has_many :entries
+  belongs_to :user
 
   validates :title, :source_url, presence: true
 

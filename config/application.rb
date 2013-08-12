@@ -23,5 +23,7 @@ module Api
 # May not be needed for rails 4.0 on Heroku
 #    config.assets.initialize_on_precompile = false
 
+    # Has our custom error handlers to return JSON
+    config.exceptions_app = self.routes
   end
 end

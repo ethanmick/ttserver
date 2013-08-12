@@ -80,6 +80,12 @@ module Feeders
       return
     end
 
+    #
+    # First thing is going to delete all the entries, so we can
+    # repopulate it with the newest.
+    # 
+#    feed.entries.destroy_all
+
     last_entry = feed.entries.order("updated").last
 
     doc.xpath('/html/body/center/table/tr[3]/td/table/tr').to_a.each_slice(3) do |rows|
@@ -143,7 +149,7 @@ module Feeders
       end
     end
 
-    feed.updated = DateTime.now
+    feed.updated = Time.new
     feed.save
 
 #      puts "First_row: #{first_row}"
