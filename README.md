@@ -6,9 +6,6 @@
 
 * Add a "how often to check feed" option in Feed (eg, objcio only updates monthly. No need to check every 5 minutes)
 
-* Fix Hacker News
-  * Probably just show top 30 every time for now
-
 
 # Feeds to Add #
 * objective -c io feed http://www.objc.io/feed.xml

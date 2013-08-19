@@ -1,3 +1,4 @@
+require 'open-uri'
 #
 # Gets an Atom Feed and parses it into Entries for the given feed
 #
@@ -5,62 +6,70 @@
 module Feeders
 
   def update_entries_atom(feed)
-    #
-    # Go get the feed
-    # 
-    puts "Getting Atom Feed"
 
-    if not feed.source_url.nil?
-      doc = Nokogiri::XML(open(feed.source_url)) 
-    else
-      puts "Error - Source URL is nil!"
-      return
-    end
+    begin
 
-    last_entry = feed.entries.order("updated").last
+      #
+      # Go get the feed
+      # 
+      puts "Getting Atom Feed"
 
-    doc.xpath('//xmlns:entry').each do |entry|
+      if not feed.source_url.nil?
+        doc = Nokogiri::XML(open(feed.source_url)) 
+      else
+        puts "Error - Source URL is nil!"
+        return
+      end
 
-      entry_updated_time = DateTime.parse entry.at_css('updated').text
+      last_entry = feed.entries.order("updated").last
 
-      # this is the first entry ever, or the entry is newer than the last one      
-      if last_entry.nil? or entry_updated_time > last_entry.updated
+      doc.xpath('//xmlns:entry').each do |entry|
+
+        entry_updated_time = DateTime.parse entry.at_css('updated').text
+
+        # this is the first entry ever, or the entry is newer than the last one      
+        if last_entry.nil? or entry_updated_time > last_entry.updated
         
-        new_entry = feed.entries.new
-        new_entry.title = entry.at_css('title').text
-        new_entry.entry_id = entry.at_css('id').text
-        new_entry.published = DateTime.parse entry.at_css('published').text
-        new_entry.updated = entry_updated_time
-        new_entry.author_name = entry.at_css('author name').text
-        new_entry.content = entry.at_css('content').text
+          new_entry = feed.entries.new
+          new_entry.title = entry.at_css('title').text
+          new_entry.entry_id = entry.at_css('id').text
+          new_entry.published = DateTime.parse entry.at_css('published').text
+          new_entry.updated = entry_updated_time
+          new_entry.author_name = entry.at_css('author name').text
+          new_entry.content = entry.at_css('content').text
 
-        # Links
-        source_link = nil
+          # Links
+          source_link = nil
 
-        entry.css('link').each do |link|
-          new_link = new_entry.links.new
-          new_link.href = link['href']
-          new_link.rel = link['rel']
+          entry.css('link').each do |link|
+            new_link = new_entry.links.new
+            new_link.href = link['href']
+            new_link.rel = link['rel']
 
-          if new_link.rel == "alternate"
-            source_link = new_link.href
+            if new_link.rel == "alternate"
+              source_link = new_link.href
+            end
+
+            new_link.url_type = link['type']
+            new_link.hreflang = link['hreflang']
+            new_link.title = link['title']
+            new_link.length = link['length'].to_i
+
+            new_link.save
           end
 
-          new_link.url_type = link['type']
-          new_link.hreflang = link['hreflang']
-          new_link.title = link['title']
-          new_link.length = link['length'].to_i
+          new_entry.save
 
-          new_link.save
-        end
-
-        new_entry.save
-
-        if not feed.provides_full_content and not source_link.nil?
-          new_entry.get_full_content(source_link)
+          if not feed.provides_full_content and not source_link.nil?
+            new_entry.get_full_content(source_link)
+          end
         end
       end
+
+    rescue Exception
+      puts "Error with getting feed updates! #{feed}"
     end
+
   end
 
 # rvm pkg install openssl; rvm reinstall all --with-open-ssl-dir=$rvm_path/usr --force
@@ -84,9 +93,7 @@ module Feeders
     # First thing is going to delete all the entries, so we can
     # repopulate it with the newest.
     # 
-#    feed.entries.destroy_all
-
-    last_entry = feed.entries.order("updated").last
+    feed.entries.destroy_all
 
     doc.xpath('/html/body/center/table/tr[3]/td/table/tr').to_a.each_slice(3) do |rows|
 
@@ -101,20 +108,20 @@ module Feeders
 
 #      puts "Time ago: #{second_row.css("td[class='subtext']").text.match(/\d+ (hour|hours|day|days|minute|minutes) ago/)}"
 
-      make_new_entry = false
-      posted_date = nil
+      time_string = nil
 
       second_row.css("td[class='subtext']").text.match(/\d+ (hour|hours|day|days|minute|minutes) ago/) do |m|
         time_string = m[0]
-        posted_date = (time_string.split(" ")[0].to_i.send time_string.split(" ")[1]).ago
-        make_new_entry = last_entry.nil? or posted_date > last_entry.updated
       end
 
       
-      if make_new_entry
+#      if make_new_entry
         new_entry = feed.entries.new
         new_entry.title = first_row.css("td[class='title'] a").first.text
-        new_entry.entry_id = remove_alpha first_row.children[0].text
+        new_entry.entry_id = remove_alpha first_row.children[0].text #rank
+
+        posted_date = (time_string.split(" ")[0].to_i.send time_string.split(" ")[1]).ago
+
         new_entry.published = posted_date
         new_entry.updated = posted_date
 
@@ -146,7 +153,7 @@ module Feeders
 #        new_entry.content = entry.at_css('content').text
 
 
-      end
+#      end
     end
 
     feed.updated = Time.new
