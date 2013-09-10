@@ -9,6 +9,7 @@ Api::Application.routes.draw do
 
   root :to => 'feeds#index'
 
+  # These don't seem to work at all
   match "/404" => "errors#not_found", via: [:get, :post]
   match "/500" => "errors#exception", via: [:get, :post]
 

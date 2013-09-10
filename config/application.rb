@@ -23,6 +23,11 @@ module Api
 # May not be needed for rails 4.0 on Heroku
 #    config.assets.initialize_on_precompile = false
 
+    # Allow Devise to respond to JSON
+    config.to_prepare do
+      DeviseController.respond_to :html, :json
+    end
+
     # Has our custom error handlers to return JSON
     config.exceptions_app = self.routes
   end
