@@ -1,5 +1,7 @@
 # API Server #
 
+# THIS SHOULD BE RE-WRITTEN IN NODE.JS #
+
 # To Do #
 
 * Fix/Finish Readability
